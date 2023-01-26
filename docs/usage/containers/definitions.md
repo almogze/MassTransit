@@ -27,6 +27,20 @@ public class SubmitOrderConsumerDefinition :
 }
 ```
 
+Adding the behavior specified above can be done in the following way:
+
+```
+busRegistrationConfigurator.AddConsumer<SubmitOrderConsumer>(typeof(SubmitOrderConsumerDefinition), e =>
+            {
+                e.UseMessageRetry(r => r.None());
+            }).Endpoint(e =>
+            {
+                e.Name = "input-queue";
+                e.Temporary = false;
+                e.ConcurrentMessageLimit = 16;
+            });
+```
+
 ### Saga
 
 ```cs
